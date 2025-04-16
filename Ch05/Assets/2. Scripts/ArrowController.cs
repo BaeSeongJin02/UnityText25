@@ -37,7 +37,7 @@ public class ArrowController : MonoBehaviour
         if(distance < r1 + r2)
         {
             GameObject gd = GameObject.Find("Game Director");
-            gd.GetComponaent<GameDirector>().DecreaseHP();
+            gd.GetComponent<GameDirector>().DecreaseHP();
 
             Destroy(gameObject);
         }
