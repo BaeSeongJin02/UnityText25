@@ -14,7 +14,12 @@ public class BamsongiController : MonoBehaviour
 
     public void Shoot(Vector3 dir)
     {
-        GetComponent<Rigidbody>().AddForce(dir);
+        //GetComponent<Rigidbody>().AddForce(dir);
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.isKinematic = false;
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        rb.AddForce(dir);
     }
 
     private void OnCollisionEnter(Collision collision)
