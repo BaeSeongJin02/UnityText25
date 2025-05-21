@@ -5,11 +5,13 @@ using UnityEngine;
 public class TargetController : MonoBehaviour
 {
     Transform playerTR;
+    GenerateTarget gt;
 
     // Start is called before the first frame update
     void Start()
     {
         playerTR = GameObject.Find("Player").transform;
+        gt = GameObject.FindAnyObjectByType<GenerateTarget>();
     }
 
     // Update is called once per frame
@@ -23,5 +25,6 @@ public class TargetController : MonoBehaviour
     {
         Destroy(gameObject);
         Destroy(collsion.gameObject);
+        gt.GenerateTargetObject();
     }
 }
