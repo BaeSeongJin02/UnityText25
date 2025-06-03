@@ -7,17 +7,22 @@ public class GoalSpawner : MonoBehaviour
     public GameObject goalPrefab;
     public Transform ball;
 
-    private float minDistance = 10f; //생성 거리 제한
-    private float goalHeight = 1f;    //골대 높이 조정
+    public float minDistance = 10f;
+    public float goalHeight = 1f;
+    public float spawnInterval = 10f;
 
-    private Transform[] goalPositions;
+    private float timer = 0f;
+    private List<Transform> goalPositions = new List<Transform>();
 
     void Start()
     {
-        // 자식 오브젝트 위치 수집
-        goalPositions = GetComponentsInChildren<Transform>();
+        // 자신의 자식 Transform 자동 수집
+        foreach (Transform child in transform)
+        {
+            goalPositions.Add(child);
+        }
 
-        // 공 자동 할당
+        // 공 자동 찾기
         if (ball == null)
         {
             GameObject foundBall = GameObject.FindWithTag("Ball");
@@ -26,36 +31,36 @@ public class GoalSpawner : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        timer += Time.deltaTime;
+
+        if (timer >= spawnInterval)
+        {
+            SpawnGoal();
+            timer = 0f;
+        }
+    }
+
     public void SpawnGoal()
     {
-        if (goalPrefab == null || goalPositions.Length <= 1 || ball == null)
-        {
+        if (goalPrefab == null || goalPositions.Count == 0 || ball == null)
             return;
-        }
 
         int index;
         Vector3 position;
+        int safety = 20;
 
         do
         {
-            index = Random.Range(1, goalPositions.Length);
+            index = Random.Range(0, goalPositions.Count);
             position = goalPositions[index].position;
+            safety--;
         }
-        while (Vector3.Distance(position, ball.position) < minDistance);
+        while (Vector3.Distance(position, ball.position) < minDistance && safety > 0);
 
         position.y = goalHeight;
 
-        // 골대 생성
         GameObject goal = Instantiate(goalPrefab, position, Quaternion.identity);
-
-        // ▶ Goal.cs의 spawner 연결
-        Goal goalScript = goal.GetComponent<Goal>();
-        if (goalScript != null)
-        {
-            goalScript.spawner = this;
-        }
-
-        // 월드 위치 유지하면서 부모 설정
-        goal.transform.SetParent(goalPositions[index], true);
     }
 }
