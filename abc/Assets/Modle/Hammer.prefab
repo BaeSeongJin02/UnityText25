@@ -284,7 +284,6 @@ GameObject:
   - component: {fileID: 4838753041240967315}
   - component: {fileID: 6649436435017251305}
   - component: {fileID: 8019787387633375625}
-  - component: {fileID: 1077953908735522840}
   - component: {fileID: 3138147531500792943}
   m_Layer: 0
   m_Name: Hammer
@@ -359,24 +358,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1077953908735522840
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9121517185155636673}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29acfef7ac280e2458fe6f7fa4f25f59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ball: {fileID: 0}
-  backDistance: 0.3
-  forwardDistance: 0.5
-  moveDuration: 0.4
-  heightOffset: 0.3
-  followDistance: 1.5
 --- !u!114 &3138147531500792943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,6 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 725886fffeefa1e4a98648a967ac99ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ball: {fileID: 0}
   followDistance: 2
   heightOffset: 0.9
   rotateSpeed: 90
