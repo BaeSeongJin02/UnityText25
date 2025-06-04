@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameDirector : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class GameDirector : MonoBehaviour
     private float timeRemaining;
     private int point = 0;
     private bool isGameOver = false;
+
+    public static int finalScore = 0; //게임 오버 씬에 전달할 점수
 
     void Start()
     {
@@ -30,7 +33,9 @@ public class GameDirector : MonoBehaviour
             timeRemaining = 0;
             isGameOver = true;
 
-            Debug.Log("게임 종료! 최종 점수: " + point);
+            finalScore = point; //점수 저장
+ 
+            SceneManager.LoadScene("GameOver"); // 게임 오버 씬으로 이동
         }
 
         UpdateUI();

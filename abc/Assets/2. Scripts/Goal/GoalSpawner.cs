@@ -13,16 +13,15 @@ public class GoalSpawner : MonoBehaviour
 
     private float timer = 0f;
     private List<Transform> goalPositions = new List<Transform>();
+    private List<int> usedIndexes = new List<int>(); // 이미 사용된 위치 인덱스
 
     void Start()
     {
-        // 자신의 자식 Transform 자동 수집
         foreach (Transform child in transform)
         {
             goalPositions.Add(child);
         }
 
-        // 공 자동 찾기
         if (ball == null)
         {
             GameObject foundBall = GameObject.FindWithTag("Ball");
@@ -47,6 +46,12 @@ public class GoalSpawner : MonoBehaviour
         if (goalPrefab == null || goalPositions.Count == 0 || ball == null)
             return;
 
+        // 모든 위치에 골대가 생긴 경우 중단
+        if (usedIndexes.Count >= goalPositions.Count)
+        {
+            return;
+        }
+
         int index;
         Vector3 position;
         int safety = 20;
@@ -57,10 +62,20 @@ public class GoalSpawner : MonoBehaviour
             position = goalPositions[index].position;
             safety--;
         }
-        while (Vector3.Distance(position, ball.position) < minDistance && safety > 0);
+        while ((usedIndexes.Contains(index) || Vector3.Distance(position, ball.position) < minDistance) && safety > 0);
+
+        if (safety <= 0)
+        {
+            return;
+        }
 
         position.y = goalHeight;
 
-        GameObject goal = Instantiate(goalPrefab, position, Quaternion.identity);
+        Quaternion randomRotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
+
+        GameObject goal = Instantiate(goalPrefab, position, randomRotation);
+        goal.tag = "Goal";
+
+        usedIndexes.Add(index); // 생성한 위치 인덱스 저장
     }
 }
