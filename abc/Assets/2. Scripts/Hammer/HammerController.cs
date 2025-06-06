@@ -5,7 +5,7 @@ using UnityEngine;
 public class HammerController : MonoBehaviour
 {
     public Transform ball;
-    private MoveHammer moveHammer; // MoveHammer 스크립트 참조
+    private MoveHammer moveHammer;
 
     private float backDistance = 0.3f;
     private float forwardDistance = 0.5f;
@@ -14,7 +14,7 @@ public class HammerController : MonoBehaviour
     private float followDistance = 1.5f;
 
     private float mouseDownTime;
-    private float minPower = 10f;
+    private float minPower = 20f;
     private float maxPower = 400f;
     private float powerMultiplier = 20f;
 
@@ -30,16 +30,21 @@ public class HammerController : MonoBehaviour
 
     void Update()
     {
-        if (!isSwinging && Input.GetMouseButtonUp(0))
-            StartSwing();
-
         if (isSwinging)
             AnimateSwing();
+    }
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            mouseDownTime = Time.time; // 누른 순간 시간 저장
-        }
+    //버튼 누를 때 호출
+    public void OnSmashDown()
+    {
+        mouseDownTime = Time.time;
+    }
+
+    //버튼 뗄 때 호출
+    public void OnSmashUp()
+    {
+        if (!isSwinging)
+            StartSwing();
     }
 
     void StartSwing()
@@ -54,7 +59,6 @@ public class HammerController : MonoBehaviour
         backPos = ball.position + dir * (followDistance + backDistance) + Vector3.up * heightOffset;
         forwardPos = ball.position + dir * (followDistance - forwardDistance) + Vector3.up * heightOffset;
 
-        //충격력 계산 및 적용
         float heldTime = Time.time - mouseDownTime;
         float power = Mathf.Clamp(heldTime * powerMultiplier, minPower, maxPower);
 

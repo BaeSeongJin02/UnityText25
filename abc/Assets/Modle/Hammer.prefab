@@ -371,6 +371,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ball: {fileID: 0}
-  followDistance: 2
-  heightOffset: 0.9
-  rotateSpeed: 90
