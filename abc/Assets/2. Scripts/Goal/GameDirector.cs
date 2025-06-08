@@ -57,4 +57,14 @@ public class GameDirector : MonoBehaviour
         point += amount;
         UpdateUI();
     }
+
+    public void ForceGameOver()
+    {
+        if (isGameOver) return;
+
+        isGameOver = true;
+        finalScore = point;
+
+        SceneManager.LoadScene("GameOver");
+    }
 }
